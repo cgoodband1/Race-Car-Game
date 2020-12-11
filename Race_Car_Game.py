@@ -13,14 +13,20 @@ red = (250,0,0)
 green = (0,250,0)
 blue = (0,0,250)
 
-car_width = 228
+car_width = 73
 
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('A Bit Racey')
 clock = pygame.time.Clock()
 
-carImg = pygame.image.load('racecar.png')
+carImg = pygame.image.load('car.png')
+
+def things_dodged(count):
+	font = pygame.font.SysFont(None, 25)
+	text = font.render("Dodged: "+str(count),True, blue)
+	gameDisplay.blit(text, (0,0))
+
 
 def things(thingx, thingy, thingw, thingh, color):
 	pygame.draw.rect(gameDisplay, color, [thingx, thingy, thingw, thingh])
@@ -57,13 +63,15 @@ def crash():
 
 def game_loop():
 	x = (display_width *0.4)
-	y = (display_height *0.6)
+	y = (display_height *0.7)
+
+	dodged = 0
 
 	x_change = 0
 
 	thing_startx = random.randrange(0, display_width)
 	thing_starty = -600
-	thing_speed = 7
+	thing_speed = 4
 	thing_width = 100
 	thing_height = 100
 
@@ -75,9 +83,9 @@ def game_loop():
 				quit()
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_LEFT:
-					x_change = -5
+					x_change = -12
 				elif event.key == pygame.K_RIGHT:
-					x_change = 5
+					x_change = 12
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					x_change = 0
@@ -88,19 +96,23 @@ def game_loop():
 		thing_starty += thing_speed
 
 		car(x,y)
+		things_dodged(dodged)
 
-		if x > (display_width + 60) - car_width or x + 55 < 0 :
+		if x > (display_width) - car_width or x < 0 :
 			crash()
 		if thing_starty > display_height:
 			thing_starty = 0 - thing_height
 			thing_startx = random.randrange(0,display_width)
+			dodged += 1
+			thing_speed += 1
+			#thing_width += (dodged * 1.2)
 
 
 		if y < thing_starty + thing_height:
-			print("y crossover")
+			#print("y crossover")
 
-			if x > thing_startx and x < thing_startx + thing_width or x+(car_width - 65)  > thing_startx and x + car_width < thing_startx + thing_width:
-				print("x crossover")
+			if x > thing_startx and x < thing_startx + thing_width or x+(car_width)  > thing_startx and x + car_width < thing_startx + thing_width:
+				#print("x crossover")
 				crash()
 
 
