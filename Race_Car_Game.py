@@ -16,6 +16,7 @@ bright_green = (0,255,0)
 blue = (0,0,250)
 
 car_width = 73
+car_length = 82
 
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
@@ -194,7 +195,7 @@ def game_loop():
 			#thing_width += (dodged * 1.2)
 
 
-		if y < thing_starty + thing_height:
+		if y < thing_starty + thing_height and y + car_length > thing_starty:
 			#print("y crossover")
 
 			if x > thing_startx and x < thing_startx + thing_width or x+(car_width)  > thing_startx and x + car_width < thing_startx + thing_width:
