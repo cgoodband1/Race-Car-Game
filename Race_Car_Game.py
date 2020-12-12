@@ -4,6 +4,10 @@ import random
 
 pygame.init()
 
+crash_sound = pygame.mixer.Sound("Crash .mp3")
+pygame.mixer.music.load("Fast Anxiety - Jeremy Korpas.mp3")
+
+
 display_width = 800
 display_height = 600
 
@@ -58,6 +62,8 @@ def message_display(text):
 	game_loop()
 
 def crash():
+	pygame.mixer.music.stop()
+	pygame.mixer.Sound.play(crash_sound)
 	
 	largeText = pygame.font.Font('freesansbold.ttf', 115)
 	TextSurf, TextRect = text_objects("You Crashed", largeText)
@@ -144,6 +150,7 @@ def game_intro():
 
 def game_loop():
 	global pause
+	pygame.mixer.music.play(-1)
 	x = (display_width *0.4)
 	y = (display_height *0.7)
 
